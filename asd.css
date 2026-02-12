@@ -1,0 +1,135 @@
+/* --- Reset y Estilos Generales --- */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Evita barras de scroll durante la animación */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(to bottom, #ffdde1, #ee9ca7); /* Fondo romántico inicial */
+    transition: background 2s ease;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* --- Botón Corazón Inicial --- */
+.heart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.5s ease;
+    z-index: 100;
+    outline: none;
+}
+
+.icon.heart {
+    width: 100px;
+    height: 100px;
+    fill: #e91e63;
+    filter: drop-shadow(0 0 10px rgba(233, 30, 99, 0.6));
+    animation: heartbeat 1.5s infinite;
+    transition: all 0.5s ease;
+}
+
+.label {
+    margin-top: 15px;
+    color: #c2185b;
+    font-size: 1.2rem;
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+/* Animación de latido */
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* --- Transformación a Semilla (Dinámico) --- */
+.heart-btn.is-seed {
+    /* El botón se vuelve pequeño y redondo */
+    width: 20px;
+    height: 20px;
+    background-color: #5D4037; /* Color café */
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    /* Ocultamos el SVG y el Texto */
+}
+
+.heart-btn.is-seed .icon,
+.heart-btn.is-seed .label {
+    display: none; /* Ocultar contenido interno */
+    opacity: 0;
+}
+
+/* --- Elementos Generados Dinámicamente (Suelo y Árbol) --- */
+
+/* El Suelo */
+.ground-line {
+    position: absolute;
+    bottom: 10%;
+    width: 100%;
+    height: 4px;
+    background-color: #795548;
+    transform: scaleX(0); /* Empieza invisible */
+    transition: transform 1s ease-out;
+    transform-origin: center;
+}
+
+/* El Árbol */
+.tree-container {
+    position: absolute;
+    bottom: calc(10% + 4px); /* Justo encima del suelo */
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.trunk {
+    width: 12px;
+    height: 0px; /* Crece dinámicamente */
+    background: linear-gradient(to right, #5D4037, #8D6E63);
+    border-radius: 5px;
+    transition: height 2s ease-out;
+}
+
+.crown {
+    position: relative;
+    width: 0;
+    height: 0;
+    /* Punto de referencia para las hojas */
+}
+
+/* Hojas (Corazones CSS) */
+.leaf {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background-color: red;
+    transform: rotate(-45deg) scale(0);
+    opacity: 0;
+    transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s;
+}
+.leaf::before, .leaf::after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    background-color: inherit;
+    border-radius: 50%;
+    position: absolute;
+}
+.leaf::before { top: -7.5px; left: 0; }
+.leaf::after { left: 7.5px; top: 0; }

@@ -1,0 +1,232 @@
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('heartBtn');
+  const app = document.getElementById('app');
+  const messageContainer = document.getElementById('message-container');
+
+  let treeContainerRef = null;
+
+  // SVG del tronco proporcionado por el usuario
+  const treeSvg = `
+    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"  viewBox="0 0 585.541 585.541" preserveAspectRatio="none" xml:space="preserve">
+    <g>
+      <g>
+        <path d="M220.462,214.11c-13.415,5.324-27.438,8.315-41.567,9.241c-1.534-1.102-3.317-2.023-5.496-2.603
+          c-11.967-3.17-19.192-12.726-27.104-21.612c-9.523-10.698-20.359-19.576-32.171-27.613c-11.734-7.985-25.365-13.333-38.797-17.679
+          c-13.211-4.272-30.114-6.671-39.037-18.511c-12.497-16.589-40.861-0.355-28.185,16.475c19.931,26.459,50.2,27.756,78.185,41.327
+          c9.71,4.708,17.858,11.587,25.545,19.037c-5.712-2.338-11.306-4.978-16.712-7.98c-18.417-10.229-34.872,17.964-16.475,28.185
+          c29.531,16.406,61.62,24.313,95.386,23.827c16.553-0.236,33.208-3.623,48.968-8.454c12.456-3.819,46.284-24.929,58.556-12.211
+          c0.478,4.435,1.028,8.898,1.636,13.399c3.664,27.128,3.439,53.869-0.93,80.527c-18.854-20.302-48.536-29.882-75.668-36.834
+          c-43.313-11.098-91.641-14.945-128.03-43.497c-16.357-12.832-39.629,10.094-23.081,23.081
+          c13.578,10.653,28.07,18.682,43.26,25.047c-14.7,6.871-28.062,11.281-46.459,7.699c-20.559-4.007-29.327,27.45-8.678,31.473
+          c17.891,3.484,34.746,3.146,52.387-1.542c9.27-2.464,18.091-7.283,26.194-12.252c10.894-6.68,20.861-6.802,33.264-6.178
+          c2.081,0.106,3.892-0.199,5.561-0.689c32.86,7.189,95.092,12.596,106.006,51.024c0.743,2.615,1.93,4.729,3.399,6.418
+          l-8.16,212.327h77.52L331.622,362.5c0-1.293-0.114-2.509-0.245-3.713c1.126-1.163,2.175-2.509,3.027-4.247
+          c7.14-14.586,17.124-23.558,28.833-29.164c21.519,5.899,32.84,20.172,48.532,37.014c13.451,14.436,31.681,24.179,50.698,28.735
+          c20.461,4.9,29.139-26.573,8.678-31.473c-24.7-5.916-37.707-22.448-53.852-40.486c-1.024-1.146-2.163-2.187-3.261-3.26
+          c19.878-0.742,40.434-0.347,58.785-4.618c0.669,0.094,1.298,0.236,2.016,0.257c16.422,0.478,28.062,13.224,38.911,24.121
+          c10.416,10.461,21.24,20.339,34.729,26.638c18.947,8.854,35.533-19.277,16.475-28.185c-22.211-10.379-36.36-30.522-55.275-43.407
+          c3.398-3.778,6.54-8.083,9.318-13.146c10.131-18.462-18.058-34.929-28.185-16.475c-5.242,9.555-13.227,15.397-22.717,18.963
+          c-0.082,0.033-0.168,0.062-0.245,0.094c-25.708,9.515-62.428,2.333-86.435,5.757c-0.114,0.016-0.229,0.041-0.347,0.061
+          c17.111-10.522,35.973-18.943,52.231-26.598c42.474-19.996,84.081-47.479,97.598-95.043c5.766-20.29-25.729-28.891-31.473-8.678
+          c-6.356,22.371-20.882,38.499-38.821,51.363c0.506-18.735-0.955-37.548,13.203-52.538c14.435-15.292-8.604-38.413-23.081-23.081
+          c-11.493,12.17-18.931,25.928-21.53,42.55c-2.546,16.292,4.203,35.749-4.247,50.567c-0.751,1.314-1.252,2.615-1.624,3.896
+          c-14.74,7.144-29.702,13.566-43.097,20.367c-11.163,5.667-22.158,12.514-32.342,20.388c16.854-51.6,32.13-106.888,77.454-138.81
+          c46.867-33.007,108.541-33.183,150.499-75.382c14.852-14.937-8.226-38.022-23.08-23.081
+          c-14.921,15.006-33.044,24.835-52.31,32.897c7.209-13.407,10.726-28.613,13.395-44.285c3.509-20.583-27.944-29.396-31.474-8.678
+          c-3.684,21.611-7.336,41.501-26.907,54.219c-40.393,26.243-77.435,53.428-101.29,96.537
+          c-8.507,15.377-15.137,31.718-21.102,48.217c-4.333,11.975-17.152,35.202-15.921,47.749c-0.975-9.906-2.357-19.597-3.247-29.147
+          c-0.013-0.433-0.062-0.865-0.11-1.306c-1.665-18.891-1.143-37.287,8.964-55.896c26.752-49.254,81.555-76.606,82.726-138.732
+          c0.396-21.061-32.244-21.02-32.64,0c-0.678,35.712-26.476,61.049-50.449,87.295c-0.853-3.517-2.003-6.997-3.591-10.408
+          c-5.369-11.546-13.357-21.2-17.16-33.485c-4.075-13.174-2.117-28.543-1.248-42.048c1.354-21.028-31.294-20.898-32.64,0
+          c-1.522,23.619-0.816,44.986,8.592,66.94c4.174,9.731,11.367,17.116,14.565,27.434c3.032,9.775-0.184,21.665-3.79,32.248
+          c-10.106-7.536-22.473-12.999-35.451-16.344c-46.569-12.003-95.346-16.605-118.022-65.872
+          c-8.792-19.103-36.92-2.505-28.185,16.475c3.652,7.939,8.193,15.271,13.427,22.02c-2.542-0.143-5.083-0.29-7.629-0.432
+          c-18.576-1.057-29.849-5.431-36.026-24.068c-8.556-25.822-6.871-51.184-27.238-71.934c-14.761-15.039-37.83,8.054-23.081,23.081
+          c11.942,12.167,13.113,29.979,16.059,45.981c3.027,16.43,9.461,31.253,20.898,43.477c9.384,10.024,24.651,13.958,37.764,15.189
+          c20.539,1.93,41.229,2.677,61.836,3.791c4.68,2.46,9.494,4.696,14.431,6.659c17.528,6.952,35.398,11.081,53.909,14.439
+          c15.279,2.771,44.158,8.389,48.988,26.222C259.7,198.594,237.704,207.268,220.462,214.11z"/>
+      </g>
+    </g>
+  </svg>`;
+
+  btn.addEventListener('click', startSequence);
+
+  function startSequence() {
+    btn.style.pointerEvents = 'none';
+    btn.querySelector('.icon').style.animation = 'none';
+    btn.classList.add('is-seed');
+
+    // 1. Crear Suelo
+    const ground = document.createElement('div');
+    ground.classList.add('ground-line');
+    app.appendChild(ground);
+    void ground.offsetWidth;
+    ground.classList.add('expand');
+
+    // 2. Caída precisa de la semilla
+    setTimeout(() => {
+      btn.style.transition = 'transform 1s cubic-bezier(0.5, 0, 0.5, 1)';
+      // 45vh (de 40% top a 15% bottom) - 26px (semilla + suelo)
+      btn.style.transform = `translate(-50%, calc(45vh - 26px))`;
+
+      setTimeout(() => {
+        createTree();
+      }, 1000);
+    }, 800);
+  }
+
+  function createTree() {
+    btn.style.opacity = '0';
+
+    const treeContainer = document.createElement('div');
+    treeContainer.classList.add('tree-container');
+    treeContainerRef = treeContainer;
+
+    const crown = document.createElement('div');
+    crown.classList.add('crown');
+    crown.style.position = 'relative';
+
+    const trunk = document.createElement('div');
+    trunk.classList.add('trunk');
+    trunk.innerHTML = treeSvg;
+
+    treeContainer.appendChild(crown);
+    treeContainer.appendChild(trunk);
+    app.appendChild(treeContainer);
+
+    document.body.style.background = '#ffe5e5';
+
+    const treeHeight = 250;
+
+    setTimeout(() => {
+      // Activar crecimiento del SVG
+      trunk.classList.add('grow');
+
+      setTimeout(() => {
+        // Iniciar florecimiento de hojas
+        bloomLeaves(crown, treeHeight);
+
+        // Movimiento lateral después de florecer
+        setTimeout(() => {
+          finalizeAnimation(crown);
+        }, 3500);
+
+      }, 2000);
+    }, 500);
+  }
+
+  function bloomLeaves(container, treeHeight) {
+    const colors = ['#d32f2f', '#c62828', '#b71c1c', '#e53935', '#f44336', '#ffbfb0'];
+    const leafCount = 700; 
+
+    const scaleFactorX = treeHeight / 14;
+    const scaleFactorY = treeHeight / 20;
+
+    // AJUSTE DINÁMICO: 
+    // Si el valor es POSITIVO, la copa SUBE.
+    // Si el valor es NEGATIVO, la copa BAJA.
+    // Probemos con -80 para que los corazones "abracen" las ramas del SVG.
+    const yShift = -80 ; 
+
+    for (let i = 0; i < leafCount; i++) {
+        const leaf = document.createElement('div');
+        leaf.classList.add('leaf');
+
+        const t = Math.random() * Math.PI * 2;
+        let x = 16 * Math.pow(Math.sin(t), 3);
+        let y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+
+        const fillScale = Math.pow(Math.random(), 0.5);
+        x *= fillScale * scaleFactorX;
+        y *= fillScale * scaleFactorY;
+
+        leaf.style.left = `${x}px`;
+        
+        // Aquí aplicamos el desplazamiento. 
+        // Al sumar yShift (que es negativo), la copa baja.
+        leaf.style.bottom = `${y + yShift}px`;
+
+        leaf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        const finalScale = 0.4 + Math.random() * 0.7;
+
+        container.appendChild(leaf);
+
+        setTimeout(() => {
+            leaf.style.opacity = '1';
+            leaf.style.transform = `rotate(-45deg) scale(${finalScale})`;
+        }, i * 12);
+    }
+}
+
+  function finalizeAnimation(crownContainer) {
+    if (treeContainerRef) {
+      treeContainerRef.style.transform = 'translateX(18vw)';
+    }
+
+    setTimeout(() => {
+      messageContainer.classList.add('show');
+      initCounter();
+    }, 1500);
+
+    // Lluvia de hojas infinita
+    setInterval(() => {
+      createFallingLeaf(crownContainer);
+    }, 1000);
+  }
+
+  function initCounter() {
+    // >>> CONFIGURA TU FECHA AQUÍ <<<
+    // Formato: (Año, Mes, Día, Hora, Minuto)
+    // IMPORTANTE: Enero es 0, Febrero es 1, Marzo es 2...
+    // Ejemplo para el 14 de Febrero de 2025:
+    const startDate = new Date(2025, 4, 19, 23, 10, 0); 
+
+    function updateTimer() {
+        const now = new Date();
+        const diff = now - startDate;
+
+        // Cálculos de tiempo
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+        const s = Math.floor((diff / 1000) % 60);
+
+        // Actualizar el DOM
+        document.getElementById('days').innerText = d;
+        document.getElementById('hours').innerText = h.toString().padStart(2, '0');
+        document.getElementById('minutes').innerText = m.toString().padStart(2, '0');
+        document.getElementById('seconds').innerText = s.toString().padStart(2, '0');
+    }
+
+    // Ejecutar cada segundo
+    setInterval(updateTimer, 1000);
+    updateTimer(); // Ejecución inmediata inicial
+}
+
+  function createFallingLeaf(container) {
+    const leaf = document.createElement('div');
+    leaf.classList.add('leaf');
+    
+    // Las hojas caen desde puntos aleatorios de la copa (el corazón)
+    const startX = (Math.random() - 0.5) * 200; 
+    const colors = ['#d32f2f', '#c62828', '#b71c1c', '#e53935', '#f44336'];
+    
+    leaf.style.left = `${startX}px`;
+    // Posición inicial: dentro del corazón de hojas
+    leaf.style.bottom = '100px'; 
+    leaf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    leaf.style.opacity = '1';
+    leaf.style.transform = 'rotate(-45deg) scale(0.6)';
+
+    // Duración aleatoria para que no caigan todas al mismo tiempo
+    const duration = 3 + Math.random() * 3;
+    leaf.style.animation = `falling-leaf ${duration}s ease-in forwards`;
+
+    container.appendChild(leaf);
+
+    // Las eliminamos después de que terminen su caída para no saturar el navegador
+    setTimeout(() => {
+      leaf.remove();
+    }, duration * 1000);
+  }
+});
