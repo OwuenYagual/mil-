@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Formato: (Año, Mes, Día, Hora, Minuto)
     // IMPORTANTE: Enero es 0, Febrero es 1, Marzo es 2...
     // Ejemplo para el 14 de Febrero de 2025:
-    const startDate = new Date(2025, 4, 19, 23, 10, 0); 
+    const startDate = new Date(2025, 3, 19, 23, 10, 0); 
 
     function updateTimer() {
         const now = new Date();
