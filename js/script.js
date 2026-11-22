@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('heartBtn');
   const app = document.getElementById('app');
   const messageContainer = document.getElementById('message-container');
+  const scrollHint = document.getElementById('scroll-hint');
+  const lettersSection = document.getElementById('cartas');
+
+  initLetters();
 
   let treeContainerRef = null;
 
@@ -49,10 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
     </g>
   </svg>`;
 
-  btn.addEventListener('click', startSequence);
+  btn.addEventListener('click', startSequence, { once: true });
 
   function startSequence() {
     btn.style.pointerEvents = 'none';
+    btn.tabIndex = -1;
     btn.querySelector('.icon').style.animation = 'none';
     btn.classList.add('is-seed');
 
@@ -104,12 +109,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
       setTimeout(() => {
         // Iniciar florecimiento de hojas
-        bloomLeaves(crown, treeHeight);
+        const bloomDuration = bloomLeaves(crown, treeHeight);
 
         // Movimiento lateral después de florecer
         setTimeout(() => {
           finalizeAnimation(crown);
         }, 3500);
+
+        // Mostrar la indicación después de la transición de la última hoja.
+        setTimeout(() => {
+          lettersSection.hidden = false;
+          scrollHint.hidden = false;
+          if (document.activeElement === btn) {
+            scrollHint.focus({ preventScroll: true });
+          }
+        }, bloomDuration);
 
       }, 2000);
     }, 500);
@@ -117,7 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function bloomLeaves(container, treeHeight) {
     const colors = ['#d32f2f', '#c62828', '#b71c1c', '#e53935', '#f44336', '#ffbfb0'];
-    const leafCount = 700; 
+    const leafCount = 700;
+    const leafDelay = 12;
+    const leafTransitionDuration = 600;
 
     const scaleFactorX = treeHeight / 14;
     const scaleFactorY = treeHeight / 20;
@@ -154,8 +170,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             leaf.style.opacity = '1';
             leaf.style.transform = `rotate(-45deg) scale(${finalScale})`;
-        }, i * 12);
+        }, i * leafDelay);
     }
+
+    return (leafCount - 1) * leafDelay + leafTransitionDuration;
 }
 
   function finalizeAnimation(crownContainer) {
@@ -228,5 +246,60 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       leaf.remove();
     }, duration * 1000);
+  }
+
+  function initLetters() {
+    const letters = window.lettersCatalog ?? [];
+    if (letters.length === 0) return;
+
+    const grid = document.getElementById('letters-grid');
+    const reader = document.getElementById('letter-reader');
+    const text = document.getElementById('letter-text');
+
+    for (const { title, date, preview: excerpt, html } of letters) {
+      const note = document.createElement('button');
+      note.type = 'button';
+      note.className = 'letter-note';
+      note.setAttribute('aria-haspopup', 'dialog');
+
+      if (date) {
+        const stamp = document.createElement('span');
+        stamp.className = 'letter-date';
+        stamp.textContent = date;
+        note.appendChild(stamp);
+      }
+
+      if (title) {
+        const heading = document.createElement('strong');
+        heading.textContent = title;
+        note.appendChild(heading);
+      }
+
+      const preview = document.createElement('span');
+      preview.className = 'letter-preview';
+      preview.textContent = excerpt.length > 160 ? `${excerpt.slice(0, 159)}…` : excerpt || 'Carta';
+
+      if (excerpt || !title) note.appendChild(preview);
+      note.addEventListener('click', () => {
+        // El catálogo se genera con la opción de HTML desactivada en Markdown.
+        text.innerHTML = html;
+        const flowers = document.getElementById('letter-flowers').content;
+        const greeting = text.querySelector(':scope > h1:first-child');
+        const signature = text.querySelector(':scope > h2:last-child');
+        if (greeting) {
+          greeting.classList.add('letter-greeting');
+          greeting.append(flowers.cloneNode(true));
+        }
+        if (signature) {
+          signature.classList.add('letter-signature');
+          signature.prepend(flowers.cloneNode(true));
+        }
+        reader.showModal();
+        reader.scrollTop = 0;
+      });
+      grid.appendChild(note);
+    }
+
+    document.getElementById('letters-empty').hidden = true;
   }
 });

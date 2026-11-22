@@ -5,7 +5,6 @@ html {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #ffe5e5;
     transition: background 3s ease;
@@ -18,6 +17,267 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+#app {
+    height: 100svh;
+    overflow: clip;
+}
+
+.scroll-hint {
+    position: absolute;
+    bottom: 2%;
+    inset-inline: 0;
+    width: fit-content;
+    margin-inline: auto;
+    padding: 0.4rem 0.65rem;
+    z-index: 60;
+    text-align: center;
+    color: #c2185b;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.scroll-hint:hover {
+    text-decoration: underline;
+}
+
+.scroll-hint-arrow {
+    display: block;
+    transform: rotate(90deg);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    .scroll-hint-arrow {
+        animation: scroll-hint-bounce 1.4s ease-in-out infinite;
+    }
+}
+
+.letters {
+    box-sizing: border-box;
+    min-height: 100svh;
+    padding: clamp(2rem, 8vw, 5rem) clamp(1rem, 5vw, 3rem);
+    background: #fff5f2;
+    color: #5d4037;
+}
+
+.letters-inner {
+    max-width: 64rem;
+    margin-inline: auto;
+}
+
+.letters h2 {
+    margin: 0 0 1rem;
+    font-family: Georgia, serif;
+    color: #90234d;
+    font-size: clamp(2.25rem, 6vw, 3.5rem);
+}
+
+.letters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 1.5rem 2.5rem;
+}
+
+.letter-note {
+    min-width: 0;
+    position: relative;
+    min-height: 13rem;
+    padding: 2rem 1.75rem;
+    display: grid;
+    align-content: center;
+    gap: 0.7rem;
+    border: 1px solid #e4cfc7;
+    border-radius: 2px 2px 12px 2px;
+    background: linear-gradient(145deg, #fffdf7, #fbece6);
+    box-shadow: 0 5px 10px -6px #a47569;
+    color: #5d4037;
+    text-align: left;
+    font: 1.08rem/1.55 Georgia, serif;
+    cursor: pointer;
+}
+
+.letter-note:has(.letter-date) {
+    align-content: start;
+    padding-top: 0.65rem;
+}
+
+.letter-date {
+    justify-self: end;
+    margin-right: -0.65rem;
+    margin-bottom: 0.3rem;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    text-align: right;
+    color: #795952;
+    font: 0.85rem/1.4 Georgia, serif;
+}
+
+.letter-note strong {
+    font: italic 1.65rem/1.2 Georgia, serif;
+    overflow-wrap: anywhere;
+    color: #90234d;
+}
+
+.letter-note::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 3px 0 10px 0;
+    background: linear-gradient(135deg, #e7c7bd 48%, #fff5f2 52%);
+}
+
+.letter-note:hover {
+    border-color: #bb918a;
+    box-shadow: 0 8px 16px -7px #a47569;
+}
+
+.letter-preview {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}
+
+.letter {
+    box-sizing: border-box;
+    width: min(42rem, calc(100% - 2rem));
+    max-height: calc(100dvh - 2rem);
+    padding: 0 clamp(1.4rem, 7vw, 4.75rem) 2.5rem;
+    border: 0;
+    background: radial-gradient(ellipse at 5% 95%, #f0e7d6, transparent 55%), #fffdf7;
+    color: #503623;
+    overscroll-behavior: contain;
+}
+
+.letter::backdrop {
+    background: rgb(56 24 35 / 55%);
+}
+
+html:has(.letter[open]) {
+    overflow: hidden;
+}
+
+.letter form {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: flex;
+    justify-content: flex-end;
+    padding-block: 0.75rem;
+    background: #fffdf7;
+}
+
+.letter-close {
+    padding: 0.55rem 0.8rem;
+    border: 1px solid #ac677b;
+    background: transparent;
+    color: #90234d;
+    font: inherit;
+    cursor: pointer;
+}
+
+.letter-text {
+    overflow-wrap: anywhere;
+    font: 1.075rem/1.75 'Segoe UI', sans-serif;
+}
+
+.letter-greeting, .letter-signature {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: Georgia, serif;
+    text-transform: uppercase;
+}
+
+.letter-greeting {
+    margin: 1.25rem 0 1.75rem;
+    font-size: clamp(2rem, 6vw, 3.7rem);
+    font-weight: bold;
+}
+
+.letter-signature {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    letter-spacing: 0.09em;
+}
+
+.botanical {
+    position: relative;
+    width: 4.7rem;
+    height: 3.5rem;
+    flex: none;
+    color: #be9472;
+}
+
+.botanical i {
+    position: absolute;
+    width: 2.8rem;
+    height: 2.8rem;
+    right: 0;
+    bottom: 0;
+    transform: rotate(-15deg);
+}
+
+.botanical i::before, .botanical i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, #885c36 0 11%, transparent 12%),
+                radial-gradient(ellipse 16% 50%, currentColor 96%, transparent),
+                radial-gradient(ellipse 50% 16%, currentColor 96%, transparent);
+}
+
+.botanical i::after { transform: rotate(45deg); }
+.botanical i:nth-child(2) { transform: translate(-2.3rem, -0.55rem) scale(.58); }
+.botanical i:nth-child(3) { transform: translate(-1.35rem, -1.45rem) scale(.38); }
+.letter-signature .botanical { color: #b47662; transform: rotate(155deg); }
+
+.letter-text > :first-child {
+    margin-top: 0;
+}
+
+.letter-text > :last-child {
+    margin-bottom: 0;
+}
+
+.letter-text img {
+    max-width: 100%;
+    height: auto;
+}
+
+.letter-text a {
+    color: #90234d;
+}
+
+.heart-btn:focus-visible,
+.scroll-hint:focus-visible,
+.letter-note:focus-visible,
+.letter-close:focus-visible {
+    outline: 2px solid #90234d;
+    outline-offset: 4px;
+}
+
+@keyframes scroll-hint-bounce {
+    0%, 100% {
+        transform: translateY(0) rotate(90deg);
+    }
+
+    50% {
+        transform: translateY(6px) rotate(90deg);
+    }
 }
 
 /* --- Texto (Mensaje a la izquierda) --- */

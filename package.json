@@ -1,0 +1,7 @@
+{
+  "name": "mil-cartas",
+  "private": true,
+  "dependencies": {
+    "markdown-it": "15.0.3"
+  }
+}
